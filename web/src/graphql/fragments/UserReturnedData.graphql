@@ -1,0 +1,4 @@
+fragment UserReturnedData on User {
+  id
+  username
+}
