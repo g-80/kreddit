@@ -47,7 +47,7 @@ const main = async () => {
       cookie: {
         maxAge: 1000 * 60 * 60 * 24 * 365 * 10, // 10 years
         httpOnly: true,
-        secure: false, // cookie only works in https
+        secure: __prod__, // cookie only works in https
         sameSite: "none", // csrf
         domain: __prod__ ? ".kreddit.xyz" : undefined,
       },
@@ -69,7 +69,7 @@ const main = async () => {
       userLoader: createUserLoader(),
       upvoteLoader: createUpvoteLoader(),
     }), // global context object resolvers can access
-    plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
+    // plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
   });
   await apolloServer.start();
   apolloServer.applyMiddleware({
