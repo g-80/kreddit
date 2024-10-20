@@ -24,7 +24,7 @@ const main = async () => {
     type: "postgres",
     url: process.env.DATABASE_URL,
     logging: true,
-    // synchronize: true,
+    synchronize: __prod__,
     migrations: [path.join(__dirname, "./migrations/*")],
     entities: [Post, User, Upvote],
     // ssl: true,
@@ -33,10 +33,10 @@ const main = async () => {
   const app = express();
   const RedisStore = connectRedis(session);
   const redisClient = new Redis(process.env.REDIS_URL);
-  app.set("trust proxy", 1);
+  // app.set("trust proxy", 1);
   app.use(
     cors({
-      origin: process.env.CORS_ORIGIN,
+      origin: true,
       credentials: true,
     })
   );
@@ -48,8 +48,7 @@ const main = async () => {
         maxAge: 1000 * 60 * 60 * 24 * 365 * 10, // 10 years
         httpOnly: true,
         secure: __prod__, // cookie only works in https
-        sameSite: "none", // csrf
-        domain: __prod__ ? ".kreddit.xyz" : undefined,
+        // sameSite: "none", // csrf
       },
       secret: process.env.SESSION_SECRET,
       resave: false,
@@ -77,7 +76,7 @@ const main = async () => {
     cors: false,
   });
   app.listen(parseInt(process.env.PORT), () =>
-    console.log("Server listening on port 8000")
+    console.log(`Server listening on port ${process.env.PORT}`)
   );
 };
 main();
