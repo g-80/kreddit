@@ -48,7 +48,7 @@ const main = async () => {
         maxAge: 1000 * 60 * 60 * 24 * 365 * 10, // 10 years
         httpOnly: true,
         secure: __prod__, // cookie only works in https
-        // sameSite: "none", // csrf
+        sameSite: "none", // cross-site cookie
       },
       secret: process.env.SESSION_SECRET,
       resave: false,
